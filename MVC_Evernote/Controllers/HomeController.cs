@@ -1,4 +1,5 @@
-﻿using MyEvernote.BusinessLayer;
+﻿using MVC_Evernote.ViewModels;
+using MyEvernote.BusinessLayer;
 using MyEvernote.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,8 @@ namespace MVC_Evernote.Controllers
 
             NoteManager nm = new NoteManager();
 
-            return View(nm.GetNotes());
+            return View(nm.GetNotes().OrderByDescending(x=>x.ModifiedOn).ToList());
+            //return View(nm.GetNotesQueryable().OrderByDescending(x => x.ModifiedOn).ToList();
         }
 
         public ActionResult ByCategory(int? id)
@@ -40,7 +42,47 @@ namespace MVC_Evernote.Controllers
             }
 
 
-            return View("Index", cat.Notes);
+            return View("Index", cat.Notes.OrderByDescending(x=>x.ModifiedOn).ToList());
         }
+
+        public ActionResult MostLiked()
+        {
+            NoteManager nm = new NoteManager();
+
+            return View("Index",nm.GetNotes().OrderByDescending(x=>x.LikeCount).ToList());
+        }
+
+        public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Login(LoginViewModel model)
+        {
+            return View();
+        }
+
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Register(RegisterViewModel model)
+        {
+            return View();
+        }
+
+        public ActionResult Logout()
+        {
+            return View();
+        }
+
     }
 }

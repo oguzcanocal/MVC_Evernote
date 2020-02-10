@@ -1,0 +1,68 @@
+﻿@model MVC_Evernote.ViewModels.RegisterViewModel
+
+@{
+    ViewBag.Title = "MyEvernote - Kayıt Sayfası";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 col-md-offset-4">
+                <form class="form-horizontal" action='' method="POST">
+                    <fieldset>
+                        <div id="legend">
+                            <legend class="">Kayıt Formu</legend>
+                        </div>
+                        <div class="control-group">
+                            <!-- Username -->
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Kullanıcı adınız" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="control-group">
+                            <!-- Username -->
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
+                                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "E-posta adresiniz" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="control-group">
+                            <!-- Password-->
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                @Html.TextBoxFor(model => model.Password, new { @class = "form-control", placeholder = "Şifreniz", type = "password" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="control-group">
+                            <!-- Password-->
+                            <div class="input-group">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                @Html.TextBoxFor(model => model.RePassword, new { @class = "form-control", placeholder = "Şifre Tekrarı", type = "password" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="control-group">
+                            <!-- Button -->
+                            <div class="controls">
+                                <button type="submit" class="btn btn-success">Kayıt</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+}
+
+
+<script>
+    $(function () {
+        $("footer").parent().hide();
+    });
+</script>
