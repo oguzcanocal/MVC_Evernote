@@ -1,8 +1,10 @@
-﻿@model MVC_Evernote.ViewModels.LoginViewModel
+﻿@model MyEvernote.Entities.ValueObjects.LoginViewModel
 
 @{
     ViewBag.Title = "MyEvernote - Giriş Sayfası";
 }
+
+<link href="~/Content/login-register.css" rel="stylesheet" />
 
 @using (Html.BeginForm())
 {
@@ -15,6 +17,7 @@
                             <legend class="">Giriş Formu</legend>
                         </div>
                         <div class="control-group">
+                            @Html.ValidationSummary(false);
                             <!-- Username -->
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>

@@ -1,6 +1,6 @@
-﻿using MVC_Evernote.ViewModels;
-using MyEvernote.BusinessLayer;
+﻿using MyEvernote.BusinessLayer;
 using MyEvernote.Entities;
+using MyEvernote.Entities.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,7 +65,24 @@ namespace MVC_Evernote.Controllers
         [HttpPost]
         public ActionResult Login(LoginViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                EvernoteUserManager eum = new EvernoteUserManager();
+                BusinessLayerResult<EvernoteUser> res = eum.LoginUser(model);
+
+                if (res.Errors.Count > 0)
+                {
+                    res.Errors.ForEach(x => ModelState.AddModelError("", x));
+                    return View(model);
+                }
+
+                Session["login"] = res.Result;//kullanıcı bilgisi saklama
+
+                return RedirectToAction("Index");//yönlendirme
+            }
+
+
+            return View(model);
         }
 
         public ActionResult Register()
@@ -76,10 +93,36 @@ namespace MVC_Evernote.Controllers
         [HttpPost]
         public ActionResult Register(RegisterViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+
+                EvernoteUserManager eum = new EvernoteUserManager();
+                BusinessLayerResult<EvernoteUser> res = eum.RegisterUser(model);
+                if (res.Errors.Count > 0)
+                {
+                    res.Errors.ForEach(x => ModelState.AddModelError("", x));
+                    return View(model);
+                }
+
+                return RedirectToAction("RegisterOk");
+                
+            }
+
+
+            return View(model);
+        }   
+
+        public ActionResult Logout()
+        {
             return View();
         }
 
-        public ActionResult Logout()
+        public ActionResult RegisterOk()
+        {
+            return View();
+        }
+
+        public ActionResult UserActive(Guid active_id)
         {
             return View();
         }
