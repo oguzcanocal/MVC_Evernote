@@ -122,7 +122,9 @@ namespace MVC_Evernote.Controllers
 
         public ActionResult Logout()
         {
-            return View();
+            Session.Clear();
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult RegisterOk()
