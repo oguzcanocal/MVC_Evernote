@@ -1,5 +1,6 @@
 ﻿using MyEvernote.BusinessLayer;
 using MyEvernote.Entities;
+using MyEvernote.Entities.Messages;
 using MyEvernote.Entities.ValueObjects;
 using System;
 using System.Collections.Generic;
@@ -72,7 +73,13 @@ namespace MVC_Evernote.Controllers
 
                 if (res.Errors.Count > 0)
                 {
-                    res.Errors.ForEach(x => ModelState.AddModelError("", x));
+                    res.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+
+                    if (res.Errors.Find(x => x.Code == ErrorMessageCode.UserIsNotActive) != null)
+                    {
+                        ViewBag.SetLink = "http://Home/Activate/1234-5667-1232";
+                    }
+
                     return View(model);
                 }
 
@@ -100,7 +107,8 @@ namespace MVC_Evernote.Controllers
                 BusinessLayerResult<EvernoteUser> res = eum.RegisterUser(model);
                 if (res.Errors.Count > 0)
                 {
-                    res.Errors.ForEach(x => ModelState.AddModelError("", x));
+                    res.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+
                     return View(model);
                 }
 

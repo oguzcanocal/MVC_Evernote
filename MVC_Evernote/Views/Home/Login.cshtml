@@ -17,7 +17,13 @@
                             <legend class="">Giriş Formu</legend>
                         </div>
                         <div class="control-group">
-                            @Html.ValidationSummary(false);
+                            @Html.ValidationSummary(false)
+
+                            @if (ViewBag.SetLink != null)
+                            {
+                                <a href="@ViewBag.SetLink" class="btn btn-primary">Activate</a>
+                            }
+
                             <!-- Username -->
                             <div class="input-group">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
