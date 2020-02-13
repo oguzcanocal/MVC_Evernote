@@ -17,7 +17,7 @@ namespace MVC_Evernote
                 return user.Username;
             }
 
-            return null;
+            return "system";
         }
     }
 }

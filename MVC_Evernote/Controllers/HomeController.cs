@@ -132,9 +132,36 @@ namespace MVC_Evernote.Controllers
             return View();
         }
 
-        public ActionResult UserActive(Guid active_id)
+        public ActionResult UserActive(Guid id)
+        {
+            //TODO: siteyi yayına aldıktan sonra domain adı ile mail üretip app settings ayarları değiştir ve mailin gelip gelmediğini tekrar kontrol et.
+
+            EvernoteUserManager eum = new EvernoteUserManager();
+            BusinessLayerResult<EvernoteUser> res = eum.ActivateUser(id);
+
+            if (res.Errors.Count > 0)
+            {
+                TempData["errors"] = res.Errors;
+                return RedirectToAction("UserActivateCancel");
+            }
+
+            return RedirectToAction("UserActivateOk");
+        }
+
+        public ActionResult UserActivateOk()
         {
             return View();
+        }
+
+        public ActionResult UserActivateCancel()
+        {
+            List<ErrorMessageObj> errors = null;
+
+            if (TempData["error"] != null)
+            {
+                errors = TempData["error"] as List<ErrorMessageObj>;
+            } 
+            return View(errors);
         }
 
     }

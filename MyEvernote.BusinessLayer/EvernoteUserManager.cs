@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MyEvernote.Entities.Messages;
+using MyEvernote.Common.Helpers;
 
 namespace MyEvernote.BusinessLayer
 {
@@ -45,16 +46,22 @@ namespace MyEvernote.BusinessLayer
 
                 if (dbResult > 0)
                 {
-                    repo_user.Find(x => x.Email == data.Email && x.Username == data.Username);
+                    res.Result = repo_user.Find(x => x.Email == data.Email && x.Username == data.Username);
 
-                    
+                    string SiteUri = ConfigHelper.Get<string>("SiteRootUri");
+                    string activeUri = $"{SiteUri}/Home/UserActive/{res.Result.ActivateGuid}";
+                    string body = $" Merhaba {res.Result.Username}; <br><br> Hesabınızı aktifleştirmek için <a href = '{activeUri}' target='_blank'> tıklayınız </a> ";
+
+                    MailHelper.SendMail(body,res.Result.Email,"MyEvernote Hesap Aktifleştirme");
+
+
+
                 }
 
             }
 
             return res;
         }
-
 
         public BusinessLayerResult<EvernoteUser> LoginUser(LoginViewModel data)
         {
@@ -81,6 +88,34 @@ namespace MyEvernote.BusinessLayer
 
             return res;
         }
+
+        public BusinessLayerResult<EvernoteUser> ActivateUser(Guid activateId)
+        {
+            BusinessLayerResult<EvernoteUser> res = new BusinessLayerResult<EvernoteUser>();
+            res.Result = repo_user.Find(x => x.ActivateGuid == activateId);
+
+            if (res.Result !=null)
+            {
+                if (res.Result.IsActive)
+                {
+                    res.AddError(ErrorMessageCode.UserAlreadyActive, "Kullanıcı zaten aktif edilmiştir.");
+                    return res;
+                }
+
+                res.Result.IsActive = true;
+                repo_user.Update(res.Result);
+            }
+
+            else
+            {
+                res.AddError(ErrorMessageCode.ActivateIdDoesNotExist, "Aktifleştirilecek bir kullanıcı bulunamadı.");
+            }
+
+
+            return res;
+        }
+
+
 
     }
 }
