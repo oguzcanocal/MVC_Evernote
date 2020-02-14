@@ -1,0 +1,63 @@
+﻿@using MyEvernote.Entities
+@model EvernoteUser
+
+@{
+    ViewBag.Title = "Profiliniz";
+}
+
+
+<div class="container">
+
+    <div class="row">
+        <h2>@ViewBag.Title</h2>
+        <hr />
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-2">
+            <img src="~/images/@Model.ProfileImageFileName" class="img-circle" width="128" height="128" />
+        </div>
+
+        <div class="col-md-8">
+            <h3>@(Model.Name + " " + Model.Surname)</h3>
+            <br />
+            <h5><b>@Html.DisplayNameFor(model => model.Username) : </b>@Model.Username</h5>
+            <h5><b>@Html.DisplayNameFor(model => model.Email) : </b>@Model.Email</h5>
+            <br />
+            <h5><a href="#">More... </a></h5>
+        </div>
+
+        <div class="col-md-2 text-right">
+            <div class="btn-group">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="glyphicon glyphicon-cog"></span>
+                        Seçenekler
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="@Url.Action("EditProfile")"><span class="glyphicon glyphicon-pencil"> &nbsp;</span>Düzenle</a></li>
+                        <li>
+                            <a href="@Url.Action("DeleteProfile")" onclick="return confirm('Are you sure remove this account?)">
+                                <span class="glyphicon glyphicon-trash"> &nbsp;</span>Sil
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $('footer').parent().hide();
+    });
+
+</script>
+

@@ -1,4 +1,5 @@
-﻿using MyEvernote.BusinessLayer;
+﻿using MVC_Evernote.ViewModel;
+using MyEvernote.BusinessLayer;
 using MyEvernote.Entities;
 using MyEvernote.Entities.Messages;
 using MyEvernote.Entities.ValueObjects;
@@ -58,6 +59,43 @@ namespace MVC_Evernote.Controllers
             return View();
         }
 
+        public ActionResult ShowProfile()
+        {
+            EvernoteUser currenUser = Session["login"] as EvernoteUser;
+            EvernoteUserManager eum = new EvernoteUserManager();
+            BusinessLayerResult<EvernoteUser> res = eum.GetUserById(currenUser.Id);
+
+            if (res.Errors.Count>0)
+            {
+                ErrorViewModel errorNotifyObj = new ErrorViewModel()
+                {
+                    Title = " Hata Oluştu",
+                    Items = res.Errors
+                };
+
+
+                return View("Error", errorNotifyObj);
+            }
+
+            return View(res.Result);
+        }
+
+        public ActionResult EditProfile()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(EvernoteUser user)
+        {
+            return View();
+        }
+
+        public ActionResult RemoveProfile()
+        {
+            return View();
+        }
+
         public ActionResult Login()
         {
             return View();
@@ -112,7 +150,14 @@ namespace MVC_Evernote.Controllers
                     return View(model);
                 }
 
-                return RedirectToAction("RegisterOk");
+                OkViewModel notifyObj = new OkViewModel()
+                {
+                    Title = "Kayıt Başarılıdır",
+                    RedirectingUrl = "/Home/Login",
+                };
+                notifyObj.Items.Add("Lütfen e-posta adresinize gönderdiğimiz aktivasyon linkine tıklayarak hesabınızı aktive ediniz. Hesabınızı aktive etmeden not ekleyemez ve beğenme yapamazsınız.");
+
+                return View("Ok", notifyObj);
                 
             }
 
@@ -127,11 +172,6 @@ namespace MVC_Evernote.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult RegisterOk()
-        {
-            return View();
-        }
-
         public ActionResult UserActive(Guid id)
         {
             //TODO: siteyi yayına aldıktan sonra domain adı ile mail üretip app settings ayarları değiştir ve mailin gelip gelmediğini tekrar kontrol et.
@@ -141,27 +181,25 @@ namespace MVC_Evernote.Controllers
 
             if (res.Errors.Count > 0)
             {
-                TempData["errors"] = res.Errors;
-                return RedirectToAction("UserActivateCancel");
+                ErrorViewModel errorNotifyObj = new ErrorViewModel()
+                {
+                    Title = "Geçersiz İşlem",
+                    Items = res.Errors
+                };
+
+
+                return View("Error", errorNotifyObj);
             }
 
-            return RedirectToAction("UserActivateOk");
-        }
-
-        public ActionResult UserActivateOk()
-        {
-            return View();
-        }
-
-        public ActionResult UserActivateCancel()
-        {
-            List<ErrorMessageObj> errors = null;
-
-            if (TempData["error"] != null)
+            OkViewModel okNotifyObj = new OkViewModel() 
             {
-                errors = TempData["error"] as List<ErrorMessageObj>;
-            } 
-            return View(errors);
+                Title = "Hesap Aktifleştirildi.",
+                RedirectingUrl = "/Home/Login",
+            };
+
+            okNotifyObj.Items.Add("Hesabınız aktifleştirildi. Artık not paylaşabilir ve beğenme yapabilirsiniz.");
+
+            return View("Ok", okNotifyObj);
         }
 
     }

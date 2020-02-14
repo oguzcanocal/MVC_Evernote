@@ -36,13 +36,14 @@ namespace MyEvernote.BusinessLayer
                 {
                     Username = data.Username,
                     Email = data.Email,
+                    ProfileImageFileName = "user.png",
                     Password = data.Password,
                     ActivateGuid = Guid.NewGuid(),
                     IsActive = false,
                     IsAdmin = false
 
-                    
-                });
+
+                }); 
 
                 if (dbResult > 0)
                 {
@@ -61,6 +62,20 @@ namespace MyEvernote.BusinessLayer
             }
 
             return res;
+        }
+
+        public BusinessLayerResult<EvernoteUser> GetUserById(int id)
+        {
+            BusinessLayerResult<EvernoteUser> res = new BusinessLayerResult<EvernoteUser>();
+            res.Result = repo_user.Find(x => x.Id == id);
+
+            if(res.Result == null)
+            {
+                res.AddError(ErrorMessageCode.UserNotFound, "Kullanıcı bulunamadı");
+            }
+
+            return res;
+
         }
 
         public BusinessLayerResult<EvernoteUser> LoginUser(LoginViewModel data)
