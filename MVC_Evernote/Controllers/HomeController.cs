@@ -104,35 +104,42 @@ namespace MVC_Evernote.Controllers
         [HttpPost]
         public ActionResult EditProfile(EvernoteUser model, HttpPostedFileBase ProfileImage)
         {
-            if (ProfileImage != null &&
+            ModelState.Remove("ModifiedUsername");
+
+            if (ModelState.IsValid)
+            {
+                if (ProfileImage != null &&
                     (ProfileImage.ContentType == "image/jpeg" ||
                     ProfileImage.ContentType == "image/jpg" ||
                     ProfileImage.ContentType == "image/png"))
-            {
-                string filename = $"user_{model.Id}.{ProfileImage.ContentType.Split('/')[1]}";
-
-                ProfileImage.SaveAs(Server.MapPath($"~/images/{filename}"));
-                model.ProfileImageFileName = filename;
-            }
-            EvernoteUserManager eum = new EvernoteUserManager();
-
-            BusinessLayerResult<EvernoteUser> res = eum.UpdateProfile(model);
-
-            if (res.Errors.Count > 0)
-            {
-                ErrorViewModel messages = new ErrorViewModel()
                 {
-                    Items = res.Errors,
-                    Title = "Profil Güncellenemedi.",
-                    RedirectingUrl = "/Home/EditProfile"
-                };
+                    string filename = $"user_{model.Id}.{ProfileImage.ContentType.Split('/')[1]}";
 
-                return View("Error", messages);
+                    ProfileImage.SaveAs(Server.MapPath($"~/images/{filename}"));
+                    model.ProfileImageFileName = filename;
+                }
+                EvernoteUserManager eum = new EvernoteUserManager();
+
+                BusinessLayerResult<EvernoteUser> res = eum.UpdateProfile(model);
+
+                if (res.Errors.Count > 0)
+                {
+                    ErrorViewModel messages = new ErrorViewModel()
+                    {
+                        Items = res.Errors,
+                        Title = "Profil Güncellenemedi.",
+                        RedirectingUrl = "/Home/EditProfile"
+                    };
+
+                    return View("Error", messages);
+                }
+
+                Session["login"] = res.Result;
+
+                return RedirectToAction("ShowProfile");
             }
 
-            Session["login"] = res.Result;
-
-            return RedirectToAction("ShowProfile");
+            return View(model);
         }
 
         public ActionResult DeleteProfile()

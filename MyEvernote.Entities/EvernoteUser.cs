@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -11,16 +12,29 @@ namespace MyEvernote.Entities
     [Table("EvernoteUsers")]
     public class EvernoteUser:MyEntitiyBase
     {
-        [StringLength(50)]
+        [DisplayName("İsim"), 
+            StringLength(50, ErrorMessage ="{0} alanı max. {1} karater olmalıdır.")]
         public string Name { get; set; }
-        [StringLength(50)]
+
+        [DisplayName("Soyisim"), 
+            StringLength(50, ErrorMessage = "{0} alanı max. {1} karater olmalıdır.")]
         public string Surname { get; set; }
-        [Required, StringLength(50)]
+
+        [DisplayName("Kullanıcı Adı"), 
+            Required(ErrorMessage ="{0} alanı gereklidir."), 
+            StringLength(50, ErrorMessage = "{0} alanı max. {1} karater olmalıdır.")]
         public string Username { get; set; }
-        [Required, StringLength(50)]
+
+        [DisplayName("Email"), 
+            Required(ErrorMessage = "{0} alanı gereklidir."), 
+            StringLength(50, ErrorMessage = "{0} alanı max. {1} karater olmalıdır.")]
         public string Email { get; set; }
-        [Required, StringLength(50)]
+
+        [DisplayName("Şifre"), 
+            Required(ErrorMessage = "{0} alanı gereklidir."), 
+            StringLength(50, ErrorMessage = "{0} alanı max. {1} karater olmalıdır.")]
         public string Password { get; set; }
+
         [StringLength(30)]
         public string ProfileImageFileName { get; set; }
 
