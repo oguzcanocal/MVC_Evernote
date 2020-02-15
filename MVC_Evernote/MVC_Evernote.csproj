@@ -166,6 +166,11 @@
     <Content Include="Views\Shared\Info.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_PartialFooter.cshtml" />
+    <Content Include="Views\Category\Create.cshtml" />
+    <Content Include="Views\Category\Delete.cshtml" />
+    <Content Include="Views\Category\Details.cshtml" />
+    <Content Include="Views\Category\Edit.cshtml" />
+    <Content Include="Views\Category\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -176,7 +181,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Category\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyEvernote.BusinessLayer\MyEvernote.BusinessLayer.csproj">
@@ -186,6 +190,10 @@
     <ProjectReference Include="..\MyEvernote.Common\MyEvernote.Common.csproj">
       <Project>{00455570-a040-4a8b-bfe5-f0ddd0a3bf93}</Project>
       <Name>MyEvernote.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyEvernote.Core\MyEvernote.Core.csproj">
+      <Project>{6d67b175-a1f7-413e-97ac-83005255e827}</Project>
+      <Name>MyEvernote.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MyEvernote.Entities\MyEvernote.Entities.csproj">
       <Project>{1f116ec2-b889-4382-a57e-78acbfe19979}</Project>
