@@ -11,6 +11,11 @@ namespace MyEvernote.BusinessLayer
 {
     public class CategoriesManager:ManagerBase<Category> 
     {
+        public override int Delete(Category category)
+        {
+            //Kategori ile ilişkili notların silinmesi gerekiyor.
 
+            return base.Delete(category);
+        }
     }
 }

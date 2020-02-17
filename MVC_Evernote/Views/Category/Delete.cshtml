@@ -1,4 +1,6 @@
-﻿@model MyEvernote.Entities.Category
+﻿@using MVC_Evernote
+
+@model MyEvernote.Entities.Category
 
 @{
     ViewBag.Title = "Sil";
@@ -64,10 +66,8 @@
             @Html.AntiForgeryToken()
 
             <div class="form-actions no-color">
-                <button type="submit" class="btn btn-danger">
-                    <span class="glyphicon glyphicon-remove"></span> Sil
-                </button>
-                @Html.ActionLink("Listeye Dön", "Index", "Category", null, new { @class = "btn btn-default" })
+                @MyBootstrap.Button("danger", string.Empty, "submit", "glyphicon glyphicon-remove", " Sil")
+                @MyBootstrap.LinkButton("/Category/Index/", "default", string.Empty, "Listeye Dön", "glyphicon glyphicon-arrow-left", " Listeye Dön")
             </div>
         }
     </div>
