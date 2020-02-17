@@ -35,12 +35,14 @@ namespace MyEvernote.Entities
             StringLength(50, ErrorMessage = "{0} alanı max. {1} karater olmalıdır.")]
         public string Password { get; set; }
 
-        [StringLength(30)]
+        [StringLength(30), ScaffoldColumn(false)]
         public string ProfileImageFileName { get; set; }
 
-        [Required]
+        [Required, ScaffoldColumn(false)]
         public Guid ActivateGuid { get; set; }
+        [DisplayName("Aktif mi?")]
         public bool IsActive { get; set; }
+        [DisplayName("Admin mi?")]
         public bool IsAdmin { get; set; }
 
         public virtual List<Note> Notes { get; set; }

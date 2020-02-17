@@ -72,23 +72,30 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/Note/AddNew"><span class="glyphicon glyphicon-plus"></span> Not Ekle</a>
+                                    @MyBootstrap.LinkMenu("/Note/AddNew", "plus", " Not Ekle")
                                 </li>
                                 <li role="separator" class="divider"></li>
                                 <li>
-                                    <a href="/Note/MyNotes"><span class="glyphicon glyphicon-th-list"></span> Notlarım</a>
+                                    @MyBootstrap.LinkMenu("/Note/MyNotes", "th-list", " Notlarım")
                                 </li>
                                 <li>
-                                    <a href="/Note/MyLikedNotes"><span class="glyphicon glyphicon-heart"></span> Beğendiklerim</a>
+                                    @MyBootstrap.LinkMenu("/Note/MyLikedNotes", "heart", " Beğendiklerim")
                                 </li>
                                 @if (user.IsAdmin)
                                 {
                                     <li role="separator" class="divider"></li>
                                     <li>
-                                        <a href="/Category/Create"><span class="glyphicon glyphicon-plus"></span> Kategori Ekle</a>
+                                        @MyBootstrap.LinkMenu("/Category/Create", "plus", " Kategori Ekle")
                                     </li>
                                     <li>
-                                        <a href="/Category/Index"><span class="glyphicon glyphicon-th-list"></span> Kategoriler</a>
+                                        @MyBootstrap.LinkMenu("/Category/Index", "th-list", " Kategoriler")
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        @MyBootstrap.LinkMenu("/EvernoteUser/Create", "plus", " Kullanıcı Ekle")
+                                    </li>
+                                    <li>
+                                        @MyBootstrap.LinkMenu("/EvernoteUser/Index", "th-list", " Kullanıcılar")
                                     </li>
                                 }
 
@@ -98,13 +105,13 @@
                     }
                     <li>
                     <li>
-                        <a href="/Home/MostLiked"><span class="glyphicon glyphicon-star"></span> En Beğenilenler</a>
+                        @MyBootstrap.LinkMenu("/Home/MostLiked", "star", " En Beğenilenler")
                     </li>
                     <li>
-                        <a href="/Home/Index"><span class="glyphicon glyphicon-th-list"></span> Son Yazılar</a>
+                        @MyBootstrap.LinkMenu("/Home/Index", "th-list", " Son Yazılar")
                     </li>
                     <li>
-                        <a href="/Home/About"><span class="glyphicon glyphicon-info-sign"></span> Hakkımızda</a>
+                        @MyBootstrap.LinkMenu("/Home/About", "info-sign", " Hakkımızda")
                     </li>
 
                 </ul>
@@ -113,10 +120,10 @@
                     @if (user == null)
                     {
                         <li>
-                            <a href="@Url.Action("Login","Home")"><span class="glyphicon glyphicon-log-in"></span> Giriş</a>
+                            @MyBootstrap.LinkMenu("/Home/Login", "log-in", " Giriş")
                         </li>
                         <li>
-                            <a href="@Url.Action("Register","Home")"><span class="glyphicon glyphicon-user"></span> Üye Ol</a>
+                            @MyBootstrap.LinkMenu("/Home/Register", "user", " Üye Ol")
                         </li>
                     }
                     else
@@ -127,11 +134,11 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/Home/ShowProfile"><span class="glyphicon glyphicon-plus"></span> Profili Göster</a>
+                                    @MyBootstrap.LinkMenu("/Home/ShowProfile", "plus", " Profili Göster")
                                 </li>
                                 <li role="separator" class="divider"></li>
                                 <li>
-                                    <a href="/Home/EditProfile"><span class="glyphicon glyphicon-th-list"></span> Profili Düzenle</a>
+                                    @MyBootstrap.LinkMenu("/Home/EditProfile", "th-list", " Profili Düzenle")
                                 </li>
                                 <li>
                                     <a href="@Url.Action("DeleteProfile")" onclick="return confirm('Hesabı silmek istediğinize emin misiniz?')">
@@ -143,7 +150,7 @@
 
 
                         <li>
-                            <a href="@Url.Action("Logout","Home")"><span class="glyphicon glyphicon-log-out"></span> Çıkış</a>
+                            @MyBootstrap.LinkMenu("/Home/Logout", "log-out", " Çıkış")
                         </li>
                     }
 
@@ -165,23 +172,23 @@
 </html>
 
 @*<div class="col-md-2 text-right">
-    <div class="btn-group">
-        <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <span class="glyphicon glyphicon-cog"></span>
-                Seçenekler
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li><a href="@Url.Action("EditProfile")"><span class="glyphicon glyphicon-pencil"> &nbsp;</span>Düzenle</a></li>
-                <li>
-                    <a href="@Url.Action("DeleteProfile")" onclick="return confirm('Hesabı silmek istediğinize emin misiniz?')">
-                        <span class="glyphicon glyphicon-trash"> &nbsp;</span>Sil
-                    </a>
-                </li>
-            </ul>
+        <div class="btn-group">
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="glyphicon glyphicon-cog"></span>
+                    Seçenekler
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="@Url.Action("EditProfile")"><span class="glyphicon glyphicon-pencil"> &nbsp;</span>Düzenle</a></li>
+                    <li>
+                        <a href="@Url.Action("DeleteProfile")" onclick="return confirm('Hesabı silmek istediğinize emin misiniz?')">
+                            <span class="glyphicon glyphicon-trash"> &nbsp;</span>Sil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+
         </div>
-
-
-    </div>
-</div>*@
+    </div>*@
