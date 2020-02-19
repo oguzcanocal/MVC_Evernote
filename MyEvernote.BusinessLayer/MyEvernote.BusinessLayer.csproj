@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LikedManager.cs" />
     <Compile Include="Result\BusinessLayerResult.cs" />
     <Compile Include="CategoriesManager.cs" />
     <Compile Include="EvernoteUserManager.cs" />
