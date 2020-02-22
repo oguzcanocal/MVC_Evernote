@@ -31,7 +31,7 @@ namespace MVC_Evernote.Models
                 return (T)HttpContext.Current.Session[key];
             }
 
-            return default(T);
+            return default;
 
         }
 

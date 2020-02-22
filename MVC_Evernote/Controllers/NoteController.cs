@@ -67,6 +67,7 @@ namespace MVC_Evernote.Controllers
 
             if (ModelState.IsValid)
             {
+
                 note.Owner = CurrentSession.User;
                 noteManager.Insert(note);
                 return RedirectToAction("Index");

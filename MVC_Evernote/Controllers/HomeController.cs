@@ -86,9 +86,9 @@ namespace MVC_Evernote.Controllers
 
         public ActionResult EditProfile()
         {
-            EvernoteUser currenUser = Session["login"] as EvernoteUser;
+            EvernoteUser currentUser = Session["login"] as EvernoteUser;
 
-            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(currenUser.Id);
+            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(currentUser.Id);
 
             if (res.Errors.Count > 0)
             {

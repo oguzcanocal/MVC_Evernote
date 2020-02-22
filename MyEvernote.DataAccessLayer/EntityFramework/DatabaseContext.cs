@@ -20,5 +20,6 @@ namespace MyEvernote.DataAccessLayer.EntityFramework
         {
             Database.SetInitializer(new MyInitializer());
         }
+
     }
 }
