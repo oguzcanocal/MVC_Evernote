@@ -1,4 +1,5 @@
-﻿using MVC_Evernote.ViewModel;
+﻿using MVC_Evernote.Models;
+using MVC_Evernote.ViewModel;
 using MyEvernote.BusinessLayer;
 using MyEvernote.BusinessLayer.Result;
 using MyEvernote.Entities;
@@ -65,9 +66,8 @@ namespace MVC_Evernote.Controllers
 
         public ActionResult ShowProfile()
         {
-            EvernoteUser currenUser = Session["login"] as EvernoteUser;
             
-            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(currenUser.Id);
+            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(CurrentSession.User.Id);
 
             if (res.Errors.Count > 0)
             {
@@ -86,9 +86,8 @@ namespace MVC_Evernote.Controllers
 
         public ActionResult EditProfile()
         {
-            EvernoteUser currentUser = Session["login"] as EvernoteUser;
 
-            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(currentUser.Id);
+            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.GetUserById(CurrentSession.User.Id);
 
             if (res.Errors.Count > 0)
             {
@@ -137,7 +136,7 @@ namespace MVC_Evernote.Controllers
                     return View("Error", messages);
                 }
 
-                Session["login"] = res.Result;
+                CurrentSession.Set<EvernoteUser>("login",res.Result);
 
                 return RedirectToAction("ShowProfile");
             }
@@ -147,9 +146,8 @@ namespace MVC_Evernote.Controllers
 
         public ActionResult DeleteProfile()
         {
-            EvernoteUser currentUser = Session["login"] as EvernoteUser;
 
-            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.RemoveUserById(currentUser.Id);
+            BusinessLayerResult<EvernoteUser> res = evernoteUserManager.RemoveUserById(CurrentSession.User.Id);
 
             if (res.Errors.Count > 0)
             {
@@ -192,7 +190,7 @@ namespace MVC_Evernote.Controllers
                     return View(model);
                 }
 
-                Session["login"] = res.Result;//kullanıcı bilgisi saklama
+                CurrentSession.Set<EvernoteUser>("login", res.Result); ;//kullanıcı bilgisi saklama
 
                 return RedirectToAction("Index");//yönlendirme
             }

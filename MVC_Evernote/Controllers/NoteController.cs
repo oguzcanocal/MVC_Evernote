@@ -53,7 +53,7 @@ namespace MVC_Evernote.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.CategoryId = new SelectList(categoryManager.List(), "Id", "Title");
+            ViewBag.CategoryId = new SelectList(CacheHelper.GetCategoriesFromCache(), "Id", "Title");
             return View();
         }
 
@@ -73,7 +73,7 @@ namespace MVC_Evernote.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CategoryId = new SelectList(categoryManager.List(), "Id", "Title", note.CategoryId);
+            ViewBag.CategoryId = new SelectList(CacheHelper.GetCategoriesFromCache(), "Id", "Title", note.CategoryId);
             return View(note);
         }
 
@@ -89,7 +89,7 @@ namespace MVC_Evernote.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryId = new SelectList(categoryManager.List(), "Id", "Title", note.CategoryId);
+            ViewBag.CategoryId = new SelectList(CacheHelper.GetCategoriesFromCache(), "Id", "Title", note.CategoryId);
             return View(note);
         }
 
@@ -112,7 +112,7 @@ namespace MVC_Evernote.Controllers
 
                 return RedirectToAction("Index");
             }
-            ViewBag.CategoryId = new SelectList(categoryManager.List(), "Id", "Title", note.CategoryId);
+            ViewBag.CategoryId = new SelectList(CacheHelper.GetCategoriesFromCache(), "Id", "Title", note.CategoryId);
             return View(note);
         }
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MVC_Evernote.Models;
 using MyEvernote.BusinessLayer;
 using MyEvernote.Entities;
 
@@ -49,6 +50,7 @@ namespace MVC_Evernote.Controllers
             if (ModelState.IsValid)
             {
                 categoriesManager.Insert(category);
+                CacheHelper.RemoveCategoriesFromCache();
                 return RedirectToAction("Index");
             }
 
@@ -85,6 +87,7 @@ namespace MVC_Evernote.Controllers
                 cat.Title = category.Title;
                 cat.Description = category.Description;
                 categoriesManager.Update(cat);
+                CacheHelper.GetCategoriesFromCache();
                 return RedirectToAction("Index");
             }
             return View(category);
@@ -112,6 +115,7 @@ namespace MVC_Evernote.Controllers
         {
             Category category = categoriesManager.Find(x => x.Id == id);
             categoriesManager.Delete(category);
+            CacheHelper.GetCategoriesFromCache();
             return RedirectToAction("Index");
         }
     }

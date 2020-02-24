@@ -96,7 +96,7 @@
                             </div>
                             <div class="ratings">
                                 <p class="pull-right">
-                                    <button class="btn btn-default btn-sm">
+                                    <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal_comment">
                                         <span class="glyphicon glyphicon-comment"></span> Yorumlar
                                     </button>
                                 </p>
@@ -127,4 +127,7 @@
 
 @section footer{
     @Html.Partial("_PartialFooter")
-    }
+}
+
+
+@MyBootstrap.ModalPopup("modal_comment","Yorumlar")
