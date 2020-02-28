@@ -159,7 +159,7 @@
                 $(spanid).addClass("editable");
                 $(spanid).attr("contenteditable", true);
                 $(spanid).focus();
-                
+
 
             }
 
@@ -196,6 +196,28 @@
                 });
 
             }
+        }
+
+        else if (e === "del-clicked") {
+            var diolog_res = confirm("Yorum silinsin mi?");
+            if (!diolog_res) {
+                return false;
+            }
+
+            $.ajax({
+                method: "GET",
+                url: "/Comment/Delete/" + commentid
+            }).done(function (data) {
+                if (data.result) {
+                    $(modalCommentBodyId).load('/Comment/ShowNoteComments/' + noteid);
+                }
+                else {
+                    alert("Yorum silinemedi.")
+                }
+
+            }).fail(function () {
+                alert("Sunucu ile bağlantı kurulamadı.")
+            });
         }
 
 
