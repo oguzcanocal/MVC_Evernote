@@ -1,4 +1,5 @@
-﻿using MyEvernote.BusinessLayer;
+﻿using MVC_Evernote.Models;
+using MyEvernote.BusinessLayer;
 using MyEvernote.Entities;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,42 @@ namespace MVC_Evernote.Controllers
                 return Json(new { result = true }, JsonRequestBehavior.AllowGet);
             }
 
+            return Json(new { result = false }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult Create(Comment comment, int? noteid)
+        {
+            ModelState.Remove("CratedOn");
+            ModelState.Remove("ModifiedOn");
+            ModelState.Remove("ModifiedUsername");
+
+            if (ModelState.IsValid)
+            {
+                if (noteid == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                Note note = noteManager.Find(x => x.Id == noteid);
+
+
+                if (note == null)
+                {
+                    return new HttpNotFoundResult();
+                }
+
+                comment.Notes = note;
+                comment.Owner = CurrentSession.User;
+
+
+                if (commentManager.Insert(comment) > 0)
+                {
+                    return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+                }
+
+                
+            }
             return Json(new { result = false }, JsonRequestBehavior.AllowGet);
         }
     }
