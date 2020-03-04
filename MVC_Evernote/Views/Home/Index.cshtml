@@ -55,9 +55,9 @@
 
                 @foreach (Note note in Model)
                 {
-                    <div class="col-sm-4 col-lg-4 col-md-4">
+                    <div class="col-sm-4 col-lg-4 col-md-4" data-note-id="@note.Id">
                         <div class="thumbnail">
-                            <img src="http://placehold.it/320x150" alt="">
+                            <img src="http://placehold.it/320x150" alt="@note.Title">
                             <div class="caption">
                                 <h4>
                                     <a href="#">
@@ -101,11 +101,10 @@
                                     </button>
                                 </p>
                                 <p>
-                                    <button class="btn btn-default btn-sm">
-                                        <span class="glyphicon glyphicon-star-empty"></span> @note.LikeCount
+                                    <button class="btn btn-default btn-sm" type="button" data-liked="false" data-note-id="@note.Id">
+                                        <span class="glyphicon glyphicon-star-empty like-star"></span>&nbsp;
+                                        <span class="like-count">@note.LikeCount</span>
                                     </button>
-
-
                                 </p>
                             </div>
                         </div>
@@ -128,3 +127,4 @@
 @MyBootstrap.ModalPopup("modal_comment", "Yorumlar")
 
 <script src="~/Scripts/Comment.js"></script>
+<script src="~/Scripts/Like.js"></script>
