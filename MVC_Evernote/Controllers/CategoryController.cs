@@ -6,12 +6,16 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MVC_Evernote.Filters;
 using MVC_Evernote.Models;
 using MyEvernote.BusinessLayer;
 using MyEvernote.Entities;
 
 namespace MVC_Evernote.Controllers
 {
+    [Auth]
+    [AuthAdmin]
+    [Exc]
     public class CategoryController : Controller
     {
         private CategoriesManager categoriesManager = new CategoriesManager();

@@ -6,12 +6,16 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MVC_Evernote.Filters;
 using MyEvernote.BusinessLayer;
 using MyEvernote.BusinessLayer.Result;
 using MyEvernote.Entities;
 
 namespace MVC_Evernote.Controllers
 {
+    [Auth]
+    [AuthAdmin]
+    [Exc]
     public class EvernoteUserController : Controller
     {
 

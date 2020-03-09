@@ -60,7 +60,7 @@
                             <img src="http://placehold.it/320x150" alt="@note.Title">
                             <div class="caption">
                                 <h4>
-                                    <a href="#">
+                                    <a href="#" data-toggle="modal" data-target="#modal_notedetail" data-note-id="@note.Id">
 
                                         @if (string.IsNullOrEmpty(note.Title) == false && note.Title.Length > 20)
                                         {
@@ -80,7 +80,7 @@
                                 @if (string.IsNullOrEmpty(note.Text) == false && note.Text.Length > 70)
                                 {
                                     <p>@(note.Text.Substring(0, 70) + "...")</p>
-                                    <p class="pull-right"><a href="" class="btn btn-default btn-sm">devamı <span class="glyphicon glyphicon-chevron-right"></span></a></p>
+                                    <p class="pull-right"><a href="" data-toggle="modal" data-target="#modal_notedetail" data-note-id="@note.Id" class="btn btn-default btn-sm">devamı <span class="glyphicon glyphicon-chevron-right"></span></a></p>
 
                                 }
                                 else
@@ -125,6 +125,7 @@
 
 
 @MyBootstrap.ModalPopup("modal_comment", "Yorumlar")
-
+@MyBootstrap.ModalPopup("modal_notedetail", "Not Detayı")
 <script src="~/Scripts/Comment.js"></script>
 <script src="~/Scripts/Like.js"></script>
+<script src="~/Scripts/NotDetailPopUp.js"></script>

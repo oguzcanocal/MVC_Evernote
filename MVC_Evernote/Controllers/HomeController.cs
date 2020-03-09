@@ -1,4 +1,5 @@
-﻿using MVC_Evernote.Models;
+﻿using MVC_Evernote.Filters;
+using MVC_Evernote.Models;
 using MVC_Evernote.ViewModel;
 using MyEvernote.BusinessLayer;
 using MyEvernote.BusinessLayer.Result;
@@ -13,6 +14,7 @@ using System.Web.Mvc;
 
 namespace MVC_Evernote.Controllers
 {
+    [Exc]
     public class HomeController : Controller
     {
         private NoteManager noteManager = new NoteManager();
@@ -30,7 +32,7 @@ namespace MVC_Evernote.Controllers
 
             
 
-            return View(noteManager.ListQueryable().OrderByDescending(x => x.ModifiedOn).ToList());
+            return View(noteManager.ListQueryable().Where(x=>x.IsDraft == false).OrderByDescending(x => x.ModifiedOn).ToList());
             //return View(nm.GetNotesQueryable().OrderByDescending(x => x.ModifiedOn).ToList();
         }
 
@@ -50,7 +52,7 @@ namespace MVC_Evernote.Controllers
             }
 
 
-            return View("Index", cat.Notes.OrderByDescending(x => x.ModifiedOn).ToList());
+            return View("Index", cat.Notes.Where(x => x.IsDraft == false).OrderByDescending(x => x.ModifiedOn).ToList());
         }
 
         public ActionResult MostLiked()
@@ -63,7 +65,7 @@ namespace MVC_Evernote.Controllers
         {
             return View();
         }
-
+        [Auth]
         public ActionResult ShowProfile()
         {
             
@@ -83,7 +85,7 @@ namespace MVC_Evernote.Controllers
 
             return View(res.Result);
         }
-
+        [Auth]
         public ActionResult EditProfile()
         {
 
@@ -103,7 +105,7 @@ namespace MVC_Evernote.Controllers
 
             return View(res.Result);
         }
-
+        [Auth]
         [HttpPost]
         public ActionResult EditProfile(EvernoteUser model, HttpPostedFileBase ProfileImage)
         {
@@ -143,7 +145,7 @@ namespace MVC_Evernote.Controllers
 
             return View(model);
         }
-
+        [Auth]
         public ActionResult DeleteProfile()
         {
 
@@ -267,6 +269,16 @@ namespace MVC_Evernote.Controllers
             okNotifyObj.Items.Add("Hesabınız aktifleştirildi. Artık not paylaşabilir ve beğenme yapabilirsiniz.");
 
             return View("Ok", okNotifyObj);
+        }
+
+        public ActionResult AccessDenied()
+        {
+            return View();
+        }
+
+        public ActionResult HasError()
+        {
+            return View();
         }
 
     }

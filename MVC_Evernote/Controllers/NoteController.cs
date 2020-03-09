@@ -6,18 +6,20 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using MVC_Evernote.Filters;
 using MVC_Evernote.Models;
 using MyEvernote.BusinessLayer;
 using MyEvernote.Entities;
 
 namespace MVC_Evernote.Controllers
 {
+    [Exc]
     public class NoteController : Controller
     {
         NoteManager noteManager = new NoteManager();
         CategoriesManager categoryManager = new CategoriesManager();
         LikedManager likedManager = new LikedManager();
-
+        [Auth]
         public ActionResult Index()
         {
 
@@ -26,7 +28,7 @@ namespace MVC_Evernote.Controllers
                 OrderByDescending( x => x.ModifiedOn);
             return View(notes.ToList());
         }
-
+        [Auth]
         public ActionResult MyLikedNotes()
         {
             var notes = likedManager.ListQueryable().Include("LikedUser").Include("Note").
@@ -36,7 +38,7 @@ namespace MVC_Evernote.Controllers
 
             return View("Index", notes.ToList());
         }
-
+        [Auth]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -50,13 +52,13 @@ namespace MVC_Evernote.Controllers
             }
             return View(note);
         }
-
+        [Auth]
         public ActionResult Create()
         {
             ViewBag.CategoryId = new SelectList(CacheHelper.GetCategoriesFromCache(), "Id", "Title");
             return View();
         }
-
+        [Auth]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Note note)
@@ -77,7 +79,7 @@ namespace MVC_Evernote.Controllers
             return View(note);
         }
 
-        // GET: Note/Edit/5
+        [Auth]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -92,7 +94,7 @@ namespace MVC_Evernote.Controllers
             ViewBag.CategoryId = new SelectList(CacheHelper.GetCategoriesFromCache(), "Id", "Title", note.CategoryId);
             return View(note);
         }
-
+        [Auth]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Note note)
@@ -116,7 +118,7 @@ namespace MVC_Evernote.Controllers
             return View(note);
         }
 
-
+        [Auth]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -130,7 +132,7 @@ namespace MVC_Evernote.Controllers
             }
             return View(note);
         }
-
+        [Auth]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -139,6 +141,7 @@ namespace MVC_Evernote.Controllers
             noteManager.Delete(note);
             return RedirectToAction("Index");
         }
+
 
         [HttpPost]
         public ActionResult GetLiked(int[] ids)
@@ -165,7 +168,10 @@ namespace MVC_Evernote.Controllers
             Note note = noteManager.Find(x => x.Id == noteid);
 
             if (CurrentSession.User == null)
+            {
                 return Json(new { hasError = true, errorMessage = "Beğenme işlemi için giriş yapmalısınız.", result = 0 });
+            }
+                
 
             if (like != null && liked == false)
             {
@@ -195,6 +201,20 @@ namespace MVC_Evernote.Controllers
                 return Json(new { hasError = false, errorMessage = string.Empty, result = note.LikeCount });
             }
             return Json(new { hasError = true, errorMessage = "Beğenme işlemi gerçekleştirilemedi.", result = note.LikeCount });
+        }
+
+        public ActionResult GetNoteText(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Note note = noteManager.Find(x => x.Id == id);
+            if (note == null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("_PartialNoteText", note);
         }
     }
 }
