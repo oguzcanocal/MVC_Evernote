@@ -7,23 +7,21 @@
 }
 <link href="~/Content/validation-summary.css" rel="stylesheet" />
 <div class="row">
-    <div class="col-md-8 col-md-offset-2">
-        <h2>Düzenle</h2>
+    <div class="col-md-4 col-md-offset-4">
+        <h2 class="text-center">Düzenle</h2>
         <hr />
     </div>
 </div>
 
 <div class="row">
 
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-4 col-md-offset-4">
 
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                <h4>Category</h4>
-                <hr />
                 @Html.ValidationSummary(false)
                 @Html.HiddenFor(model => model.Id)
 

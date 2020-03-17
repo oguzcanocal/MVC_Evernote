@@ -1,0 +1,70 @@
+﻿@model IEnumerable<MyEvernote.Entities.Note>
+@{
+    ViewBag.Title = "MyLikedNotes";
+}
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h2>Beğendiğim Notlar</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Category.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Text)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsDraft)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LikeCount)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Category.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Text)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsDraft)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LikeCount)
+                    </td>
+                    <td width="150px">
+                        <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal_comment" data-note-id="@item.Id" type="button"><span class="glyphicon glyphicon-comment"></span></button>
+                        @MyBootstrap.LinkButton("/Note/Edit/" + item.Id, "warning", "btn-xs", "Düzenle", "glyphicon glyphicon-edit", string.Empty)
+                        @MyBootstrap.LinkButton("/Note/Details/" + item.Id, "info", "btn-xs", "Detaylar", "glyphicon glyphicon-search", string.Empty)
+                        @MyBootstrap.LinkButton("/Note/Delete/" + item.Id, "danger", "btn-xs", "Sil", "glyphicon glyphicon-trash", string.Empty)
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+</div>
+
+
+@MyBootstrap.ModalPopup("modal_comment", "Yorumlar")
+
+<script src="~/Scripts/Comment.js"></script>
+

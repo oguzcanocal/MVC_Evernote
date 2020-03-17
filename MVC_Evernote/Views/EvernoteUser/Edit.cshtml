@@ -21,8 +21,6 @@
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                <h4>Kullanıcı</h4>
-                <hr />
                 @Html.ValidationSummary(false)
                 @Html.HiddenFor(model => model.Id)
 

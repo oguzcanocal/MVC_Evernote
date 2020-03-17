@@ -206,6 +206,7 @@
     <Content Include="Views\Shared\_PartialNoteText.cshtml" />
     <Content Include="Views\Home\AccessDenied.cshtml" />
     <Content Include="Views\Home\HasError.cshtml" />
+    <Content Include="Views\Note\MyLikedNotes.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
